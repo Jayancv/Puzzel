@@ -1,0 +1,16 @@
+C:\Users\Jayan\Desktop\Projects\Assing3\bin\Debug\net5.0\Assing3.exe
+C:\Users\Jayan\Desktop\Projects\Assing3\bin\Debug\net5.0\Assing3.deps.json
+C:\Users\Jayan\Desktop\Projects\Assing3\bin\Debug\net5.0\Assing3.runtimeconfig.json
+C:\Users\Jayan\Desktop\Projects\Assing3\bin\Debug\net5.0\Assing3.runtimeconfig.dev.json
+C:\Users\Jayan\Desktop\Projects\Assing3\bin\Debug\net5.0\Assing3.dll
+C:\Users\Jayan\Desktop\Projects\Assing3\bin\Debug\net5.0\ref\Assing3.dll
+C:\Users\Jayan\Desktop\Projects\Assing3\bin\Debug\net5.0\Assing3.pdb
+C:\Users\Jayan\Desktop\Projects\Assing3\obj\Debug\net5.0\Assing3.csprojAssemblyReference.cache
+C:\Users\Jayan\Desktop\Projects\Assing3\obj\Debug\net5.0\Assing3.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Jayan\Desktop\Projects\Assing3\obj\Debug\net5.0\Assing3.AssemblyInfoInputs.cache
+C:\Users\Jayan\Desktop\Projects\Assing3\obj\Debug\net5.0\Assing3.AssemblyInfo.cs
+C:\Users\Jayan\Desktop\Projects\Assing3\obj\Debug\net5.0\Assing3.csproj.CoreCompileInputs.cache
+C:\Users\Jayan\Desktop\Projects\Assing3\obj\Debug\net5.0\Assing3.dll
+C:\Users\Jayan\Desktop\Projects\Assing3\obj\Debug\net5.0\ref\Assing3.dll
+C:\Users\Jayan\Desktop\Projects\Assing3\obj\Debug\net5.0\Assing3.pdb
+C:\Users\Jayan\Desktop\Projects\Assing3\obj\Debug\net5.0\Assing3.genruntimeconfig.cache
