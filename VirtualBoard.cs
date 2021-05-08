@@ -114,7 +114,7 @@ namespace Assing3{
                 wining.Add(8);
                 SetWon(boards[2].GetWon());
                 return GetWon();
-            }else if(boards[0].GetWon()!= 0 && boards[0].GetWon()== boards[2].GetWon() && boards [0].GetWon() == boards[8].GetWon()){
+            }else if(boards[0].GetWon()!= 0 && boards[0].GetWon()== boards[4].GetWon() && boards [0].GetWon() == boards[8].GetWon()){
                 wining.Add(0);
                 wining.Add(4);
                 wining.Add(8);
