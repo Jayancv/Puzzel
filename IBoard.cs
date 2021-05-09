@@ -25,6 +25,7 @@ namespace Assing3{
 
         public List<int> GetWinings();
 
+        public bool IsWiningMove(int player, List<int> cellNum);
     
     }
 

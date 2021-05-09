@@ -1,33 +1,45 @@
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 
-namespace Assing3{
+namespace Assing3
+{
 
     // This objeect use to store user paremeters to create shapes
     public class ItemParam
     {
-        private int y ;
-        private int x ;
+        public const string NW = "NW";
+        public const string NC = "NC";
+        public const string NE = "NE";
+        public const string CW = "CW";
+        public const string CC = "CC";
+        public const string CE = "CE";
+        public const string SW = "SW";
+        public const string SC = "SC";
+        public const string SE = "SE";
+
+
+        private int y;
+        private int x;
         private int depth;
-        private List<int> codes =  new List<int>(); 
+        private List<int> codes = new List<int>();
 
 
-        public ItemParam( int x0,int y0)
+        public ItemParam(int x0, int y0)
         {
-            x=x0;
-            y=y0;
+            x = x0;
+            y = y0;
         }
 
-        public ItemParam( int x0,List<int> code)
+        public ItemParam(int x0, List<int> code)
         {
-            depth=x0;
-            codes=code;
+            depth = x0;
+            codes = code;
         }
 
-        public ItemParam( int x0 )
+        public ItemParam(int x0)
         {
-            depth=x0;
-            
+            depth = x0;
+
         }
 
 
@@ -35,7 +47,8 @@ namespace Assing3{
         {
             x = x0;
         }
-        public int GetX(){
+        public int GetX()
+        {
             return x;
         }
 
@@ -43,19 +56,23 @@ namespace Assing3{
         {
             y = y0;
         }
-        public int GetY(){
+        public int GetY()
+        {
             return y;
         }
 
-        public void SetCodes(List<int> code){
-            codes =  code;
+        public void SetCodes(List<int> code)
+        {
+            codes = code;
         }
 
-        public List<int> GetCodes(){
+        public List<int> GetCodes()
+        {
             return codes;
         }
 
-        public int GetDepth(){
+        public int GetDepth()
+        {
             // if(String.IsNullOrEmpty(codes) ){
             //     return 0;
             // }
@@ -63,14 +80,57 @@ namespace Assing3{
             return depth;
         }
 
-        public void SetDepth(int dep){
-            depth = dep; 
+        public void SetDepth(int dep)
+        {
+            depth = dep;
         }
 
-        public void AddCoordinates(int cod){
-            codes.Add(cod);
+        public void AddCoordinates(String cod)
+        {
+            codes.Add(GetCellNo(cod));
         }
-    
+
+        public String GetAsCodinates()
+        {
+            List<String> ss = new List<string>();
+            foreach (var c in codes)
+            {
+                var a = (CellLocation)c;
+                ss.Add(a.ToString());
+
+            }
+            return string.Join(".", ss.ToArray());
+        }
+
+        private int GetCellNo(string s)
+        {
+            switch (s)
+            {
+
+                case NW:
+                    return (int)CellLocation.NW;
+                case NC:
+                    return (int)CellLocation.NC;
+                case NE:
+                    return (int)CellLocation.NE;
+                case CW:
+                    return (int)CellLocation.CW;
+                case CC:
+                    return (int)CellLocation.CC;
+                case CE:
+                    return (int)CellLocation.CE;
+                case SW:
+                    return (int)CellLocation.SW;
+                case SC:
+                    return (int)CellLocation.SC;
+                case SE:
+                    return (int)CellLocation.SE;
+                default:
+                    return 0;
+
+            }
+        }
+
     }
 
 }

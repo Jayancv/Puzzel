@@ -1,36 +1,41 @@
 using System.Collections.Generic;
 using System;
 
-namespace Assing3{
+namespace Assing3
+{
 
     // This objeect use to store user paremeters to create shapes
     public class Board : IBoard
     {
+        private Mediator mediator;
+        private int level;
+
         private bool done;
         private int won;
-        List<int> wings = new List<int>();
+        List<int> wining = new List<int>();
 
-        private Cell[,] cells = new Cell[3,3] ;
-        private int y ;
-        private int x ;
+        private Cell[,] cells = new Cell[3, 3];
+        private int y;
+        private int x;
 
 
-        public Board( )
+        public Board(Mediator m)
         {
-              cells[0,0] = new Cell(0);
-              cells[0,1] = new Cell(0);
-              cells[0,2] = new Cell(0);
-              cells[1,0] = new Cell(0);
-              cells[1,1] = new Cell(0);
-              cells[1,2] = new Cell(0);
-              cells[2,0] = new Cell(0);
-              cells[2,1] = new Cell(0);
-              cells[2,2] = new Cell(0);               
+            mediator = m;
+            cells[0, 0] = new Cell(0);
+            cells[0, 1] = new Cell(0);
+            cells[0, 2] = new Cell(0);
+            cells[1, 0] = new Cell(0);
+            cells[1, 1] = new Cell(0);
+            cells[1, 2] = new Cell(0);
+            cells[2, 0] = new Cell(0);
+            cells[2, 1] = new Cell(0);
+            cells[2, 2] = new Cell(0);
         }
 
         public IBoard Clone()
         {
-            Board clone = new Board();
+            Board clone = new Board(this.mediator);
             // clone.cells = (Cell[,]) this.cells.Clone();
             return clone;
         }
@@ -39,15 +44,26 @@ namespace Assing3{
         {
             x = x0;
         }
-        public int GetX(){
+        public int GetX()
+        {
             return x;
+        }
+
+        public void SetLevel(int x0)
+        {
+            level = x0;
+        }
+        public int GetLevel()
+        {
+            return level;
         }
 
         public void SetY(int y0)
         {
             y = y0;
         }
-        public int GetY(){
+        public int GetY()
+        {
             return y;
         }
 
@@ -55,98 +71,158 @@ namespace Assing3{
         {
             done = true;
             won = y0;
+            mediator.Update(this.level, y0);
         }
-        public int GetWon(){
-            
+        public int GetWon()
+        {
+
             return won;
         }
 
-        public bool IsDone(){
+        public bool IsDone()
+        {
             return done;
         }
 
-        public List<int> GetWinings(){
-            return wings;
+        public List<int> GetWinings()
+        {
+            return wining;
         }
 
-        public bool IsVaildMove( int num){
-            return !GetSelectedCell( num ).IsMarked();
+        public bool IsVaildMove(int num)
+        {
+            return !GetSelectedCell(num).IsMarked();
         }
 
-        public int ResolveBoard( List<int> cellNum ){
+        public int ResolveBoard(List<int> cellNum)
+        {
 
-            if(IsDone()){
+            if (IsDone())
+            {
                 return GetWon();
             }
-            if( cells[0,0].GetValue()!= 0 && cells[0,0].GetValue()== cells[0,1].GetValue() && cells [0,0].GetValue() == cells[0,2].GetValue()){
-                SetWon(cells[0,0].GetValue());
-                return GetWon();
-            }else if(cells[1,0].GetValue()!= 0 && cells[1,0].GetValue()== cells[1,1].GetValue() && cells [1,0].GetValue() == cells[1,2].GetValue()){
-                SetWon(cells[1,0].GetValue());
-                return GetWon();
-            }else if(cells[2,0].GetValue()!= 0 && cells[2,0].GetValue()== cells[2,1].GetValue() && cells [2,0].GetValue() == cells[2,2].GetValue()){
-                SetWon(cells[2,0].GetValue());
-                return GetWon();
-            }else if(cells[0,0].GetValue()!= 0 && cells[0,0].GetValue()== cells[1,0].GetValue() && cells [0,0].GetValue() == cells[2,0].GetValue()){
-                SetWon(cells[0,0].GetValue());
-                return GetWon();
-            }else if(cells[0,1].GetValue()!= 0 && cells[0,1].GetValue()== cells[1,1].GetValue() && cells [0,1].GetValue() == cells[2,1].GetValue()){
-                SetWon(cells[0,1].GetValue());
-                return GetWon();
-            }else if(cells[0,2].GetValue()!= 0 && cells[0,2].GetValue()== cells[1,2].GetValue() && cells [0,2].GetValue() == cells[2,2].GetValue()){
-                SetWon(cells[0,2].GetValue());
-                return GetWon();
-            }else if(cells[0,0].GetValue()!= 0 && cells[0,0].GetValue()== cells[1,1].GetValue() && cells [0,0].GetValue() == cells[2,2].GetValue()){
-                SetWon(cells[0,0].GetValue());
-                return GetWon();
-            }else if(cells[0,2].GetValue()!= 0 && cells[0,2].GetValue()== cells[1,1].GetValue() && cells [0,2].GetValue() == cells[2,0].GetValue()){
-                SetWon(cells[0,2].GetValue());
+            if (cells[0, 0].GetValue() != 0 && cells[0, 0].GetValue() == cells[0, 1].GetValue() && cells[0, 0].GetValue() == cells[0, 2].GetValue())
+            {
+                wining.Add(0);
+                wining.Add(1);
+                wining.Add(2);
+                SetWon(cells[0, 0].GetValue());
                 return GetWon();
             }
+            else if (cells[1, 0].GetValue() != 0 && cells[1, 0].GetValue() == cells[1, 1].GetValue() && cells[1, 0].GetValue() == cells[1, 2].GetValue())
+            {
+                wining.Add(3);
+                wining.Add(4);
+                wining.Add(5);
+                SetWon(cells[1, 0].GetValue());
+                return GetWon();
+            }
+            else if (cells[2, 0].GetValue() != 0 && cells[2, 0].GetValue() == cells[2, 1].GetValue() && cells[2, 0].GetValue() == cells[2, 2].GetValue())
+            {
+                wining.Add(6);
+                wining.Add(7);
+                wining.Add(8);
+                SetWon(cells[2, 0].GetValue());
+                return GetWon();
+            }
+            else if (cells[0, 0].GetValue() != 0 && cells[0, 0].GetValue() == cells[1, 0].GetValue() && cells[0, 0].GetValue() == cells[2, 0].GetValue())
+            {
+                wining.Add(0);
+                wining.Add(3);
+                wining.Add(6);
+                SetWon(cells[0, 0].GetValue());
+                return GetWon();
+            }
+            else if (cells[0, 1].GetValue() != 0 && cells[0, 1].GetValue() == cells[1, 1].GetValue() && cells[0, 1].GetValue() == cells[2, 1].GetValue())
+            {
+                wining.Add(1);
+                wining.Add(4);
+                wining.Add(7);
+                SetWon(cells[0, 1].GetValue());
+                return GetWon();
+            }
+            else if (cells[0, 2].GetValue() != 0 && cells[0, 2].GetValue() == cells[1, 2].GetValue() && cells[0, 2].GetValue() == cells[2, 2].GetValue())
+            {
+                wining.Add(2);
+                wining.Add(5);
+                wining.Add(8);
+                SetWon(cells[0, 2].GetValue());
+                return GetWon();
+            }
+            else if (cells[0, 0].GetValue() != 0 && cells[0, 0].GetValue() == cells[1, 1].GetValue() && cells[0, 0].GetValue() == cells[2, 2].GetValue())
+            {
+                wining.Add(0);
+                wining.Add(4);
+                wining.Add(8);
+                SetWon(cells[0, 0].GetValue());
+                return GetWon();
+            }
+            else if (cells[0, 2].GetValue() != 0 && cells[0, 2].GetValue() == cells[1, 1].GetValue() && cells[0, 2].GetValue() == cells[2, 0].GetValue())
+            {
+                wining.Add(2);
+                wining.Add(4);
+                wining.Add(6);
+                SetWon(cells[0, 2].GetValue());
+                return GetWon();
+            }
+
 
 
             return 0;
         }
 
-        public bool MarkCell(int player, List<int> cellNum){
-            int f =cellNum[0];
-            if(IsVaildMove(f)){
-               return GetSelectedCell(f).Mark(player);
+        public bool MarkCell(int player, List<int> cellNum)
+        {
+            int f = cellNum[0];
+            if (IsVaildMove(f))
+            {
+                return GetSelectedCell(f).Mark(player);
             }
             return false;
         }
 
-        
+        public bool IsWiningMove(int player, List<int> cellNum)
+        {
+            if (player == won)
+            {
+                return wining.Contains(cellNum[0]);
+            }
+            return false;
+        }
 
-        private Cell GetSelectedCell(int num) {
 
-            switch (num) {
-              
+
+        private Cell GetSelectedCell(int num)
+        {
+
+            switch (num)
+            {
+
                 case 0:
-                    return cells[0,0];
+                    return cells[0, 0];
                 case 1:
-                    return cells[0,1];
+                    return cells[0, 1];
                 case 2:
-                    return cells[0,2];
+                    return cells[0, 2];
                 case 3:
-                    return cells[1,0];
+                    return cells[1, 0];
                 case 4:
-                    return cells[1,1];
+                    return cells[1, 1];
                 case 5:
-                    return cells[1,2];
+                    return cells[1, 2];
                 case 6:
-                    return cells[2,0];
+                    return cells[2, 0];
                 case 7:
-                    return cells[2,1];
+                    return cells[2, 1];
                 case 8:
-                    return cells[2,2];   
+                    return cells[2, 2];
                 default:
-                    return cells[0,0];
+                    return cells[0, 0];
 
             }
         }
 
-    
+
     }
 
 }
