@@ -5,31 +5,15 @@ namespace Assing3
 {
 
     // This objeect use to store user paremeters to create shapes
-    public class VirtualBoard : IBoard
+    public class VirtualBoard : AbsBoard
     {
-        private Mediator mediator;
-        private int level;
-        private bool done;
-        private int won;
-        List<int> wings = new List<int>();
-
-
+        
         List<IBoard> boards = new List<IBoard>();
-        List<int> wining = new List<int>();
-
+        
 
         public VirtualBoard(Mediator m)
         {
-            mediator = m;
-            //   boards[0,0] = new Board();
-            //   boards[0,1] = new Board();
-            //   boards[0,2] = new Board();
-            //   boards[1,0] = new Board();
-            //   boards[1,1] = new Board();
-            //   boards[1,2] = new Board();
-            //   boards[2,0] = new Board();
-            //   boards[2,1] = new Board();
-            //   boards[2,2] = new Board();               
+            mediator = m;              
         }
 
         public bool AddBoard(int x, int y, IBoard board)
@@ -39,49 +23,20 @@ namespace Assing3
         }
 
 
-        public IBoard Clone()
+        public override IBoard Clone()
         {
             VirtualBoard clone = (VirtualBoard)this.MemberwiseClone();
             clone.boards = this.boards.ConvertAll(boo => boo.Clone());
             return clone;
         }
 
-
-        public void SetWon(int y0)
-        {
-            //done = true;
-            won = y0;
-            mediator.Update(this.level, y0);
-
-        }
-        public int GetWon()
-        {
-            return won;
-        }
-        public void SetLevel(int x0)
-        {
-            level = x0;
-        }
-        public int GetLevel()
-        {
-            return level;
-        }
-
-        public bool IsDone()
-        {
-            return done;
-        }
-
-        public List<int> GetWinings()
-        {
-            return wining;
-        }
-        public bool IsVaildMove(int num)
+       
+        public override bool IsVaildMove(int num)
         {
             return !GetSelectedBoard(num).IsDone();
         }
 
-        public int ResolveBoard(List<int> cellNum)
+        public override int ResolveBoard(List<int> cellNum)
         {
             int f = cellNum[0];
             List<int> v = new List<int>(cellNum);
@@ -91,6 +46,8 @@ namespace Assing3
             {
                 return 0;
             }
+            mediator.AddWiningBoards(level, s, f);
+
             return ResolveBoard();
         }
 
@@ -169,7 +126,7 @@ namespace Assing3
             return 0;
         }
 
-        public bool MarkCell(int player, List<int> cellNum)
+        public override bool MarkCell(int player, List<int> cellNum)
         {
             int f = cellNum[0];
             List<int> v = new List<int>(cellNum);
@@ -182,7 +139,7 @@ namespace Assing3
         }
 
 
-        public bool IsWiningMove(int player, List<int> cellNum)
+        public override bool IsWiningMove(int player, List<int> cellNum)
         {
             int f = cellNum[0];
             List<int> v = new List<int>(cellNum);

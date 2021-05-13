@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Assing3
 {
 
-    // This objeect use to store user paremeters to create shapes
+    // This objeect use to store user paremeters of moves
     public class ItemParam
     {
         public const string NW = "NW";
@@ -17,18 +17,8 @@ namespace Assing3
         public const string SC = "SC";
         public const string SE = "SE";
 
-
-        private int y;
-        private int x;
         private int depth;
         private List<int> codes = new List<int>();
-
-
-        public ItemParam(int x0, int y0)
-        {
-            x = x0;
-            y = y0;
-        }
 
         public ItemParam(int x0, List<int> code)
         {
@@ -40,25 +30,6 @@ namespace Assing3
         {
             depth = x0;
 
-        }
-
-
-        public void SetX(int x0)
-        {
-            x = x0;
-        }
-        public int GetX()
-        {
-            return x;
-        }
-
-        public void SetY(int y0)
-        {
-            y = y0;
-        }
-        public int GetY()
-        {
-            return y;
         }
 
         public void SetCodes(List<int> code)
@@ -73,10 +44,6 @@ namespace Assing3
 
         public int GetDepth()
         {
-            // if(String.IsNullOrEmpty(codes) ){
-            //     return 0;
-            // }
-            // return codes.Length;
             return depth;
         }
 
@@ -90,7 +57,12 @@ namespace Assing3
             codes.Add(GetCellNo(cod));
         }
 
-        public String GetAsCodinates()
+        public void AddCoordinates(int cod)
+        {
+            codes.Add(cod);
+        }
+
+        public String GetAsCodinates(String separator)
         {
             List<String> ss = new List<string>();
             foreach (var c in codes)
@@ -99,7 +71,7 @@ namespace Assing3
                 ss.Add(a.ToString());
 
             }
-            return string.Join(".", ss.ToArray());
+            return string.Join(separator, ss.ToArray());
         }
 
         private int GetCellNo(string s)

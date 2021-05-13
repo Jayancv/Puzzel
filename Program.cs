@@ -29,7 +29,8 @@ namespace Assing3
             // Read argument 1
             //String arg1 = Console.ReadLine();
             String arg1 = "NW.NW.NW,NC.NW.NW,NC.NW.NW,NW.NW.CC,NW.SW.SW,NW.NW.SE,CW.SW.SW,NW.CC.NW,SW.SW.SW,NW.CC.CC,NC.SW.SW,NW.CC.SE,CC.SW.SW,NW.SE.NW,SC.SW.SW,NW.SE.CC,NE.SW.SW,NW.SE.SE,CE.SW.SW,CW.NW.NW,SE.SW.SW,CW.NW.CC,NW.SW.CC,CW.NW.SE,CW.SW.CC,CW.CC.NW,SW.SW.CC,CW.CC.CC,NC.SW.CC,CW.CC.SE,CC.SW.CC,CW.SE.NW,SC.SW.CC,CW.SE.CC,NE.SW.CC,CW.SE.SE,CE.SW.CC,SW.NW.NW,SE.SW.CC,SW.NW.CC,NW.SW.SE,SW.NW.SE,CW.SW.SE,SW.CC.NW,SW.SW.SE,SW.CC.CC,NC.SW.SE,SW.CC.SE,CC.SW.SE,SW.SE.NW,SC.SW.SE,SW.SE.CC,NE.SW.SE,SW.SE.SE";
-
+            arg1 = "NW.NW.CC,NW.NC.CC,NW.NW.NW,NW.NE.CC,NW.NW.SE,NW.CE.CC,NW.CW.CC,NW.SE.CC,NW.CW.NW,NW.CC.CC,NW.CW.SE,NW.CC.NW,NW.CC.SE,NW.CE.NW,NW.SW.CC,NW.CE.SE,NW.SW.NW,NW.SE.SE,NW.SW.SE,CW.NC.CC,SW.SW.SE,CW.NE.CC,CW.NW.NW,CW.CC.NW,CW.NW.SE,CW.CC.CC,CW.SW.CC,CW.CE.NW,CW.SW.NW,CW.CE.SE,CW.SW.SE,CW.CE.CC,CW.CW.SE,CW.SE.CC,CW.CW.CC,CW.SW.NE,CW.CW.NW,CW.NE.SE,SW.NW.CC,SW.NC.CC,SW.NW.NW,SW.NE.CC,SW.NW.SE,SW.CE.CC,SW.CW.CC,SW.SE.CC,SW.CW.NW,SW.CC.CC,SW.CW.SE,SW.CC.NW,SW.CC.SE,SW.CE.NW,SW.SW.CC,SW.CE.SE,SW.SW.NW,SW.SE.SE,CW.NW.CC";
+            //arg1 = "SW.SE,NC.CC,NW.NW,NE.CC,NW.SE,CE.CC,CW.CC,SE.CC,CW.NW,CC.CC,CW.SE,CC.NW,CC.SE,CE.NW,SW.CC,CE.SE,CC.CC,SW.NW,SE.SE,NW.CC";
             // Argument 2 processing, Split by ;
             String[] strlist2 = arg1.Split(",", StringSplitOptions.RemoveEmptyEntries);
 
@@ -66,13 +67,13 @@ namespace Assing3
                 VirtualBoard vBoard = new VirtualBoard(dashB);
                 vBoard.SetLevel(1);
                 board = new Board(dashB);
-                board = GetColned(vBoard, board);
+                board = vBoard.GetColned(vBoard, board);
 
                 for (int i = 1; i < depth - 1; i++)
                 {
                     VirtualBoard vBoard1 = new VirtualBoard(dashB);
                     vBoard1.SetLevel(i + 1);
-                    board = GetColned(vBoard1, board);
+                    board = vBoard1.GetColned(vBoard1, board);
                 }
             }
 
@@ -92,12 +93,6 @@ namespace Assing3
                 bool success = board.MarkCell(player, parm.GetCodes());
                 board.ResolveBoard(param);
 
-                if (board.IsDone())
-                {
-                    Console.WriteLine("DONE " + (CellLocation)parm.GetX() + " PLAYER " + player + " COUNT " + count);
-                    Console.WriteLine("V DONE");
-                }
-
                 if (success)
                 {   // if move success
 
@@ -114,6 +109,10 @@ namespace Assing3
                     }
 
                 }
+                else
+                {
+                    Console.WriteLine("--False move--" + count);
+                }
                 count = count + 1;
 
             }
@@ -121,47 +120,29 @@ namespace Assing3
 
             Console.WriteLine("-----");
 
-            Console.WriteLine("Winner (Larger Boards) = {0}, Value = {1}", board.GetWon(), string.Join(",", board.GetWinings().ToArray()));
+            Console.WriteLine("Winner (Larger Boards) = {0}, Value = {1}", board.GetWon()==0 ? "No winner":board.GetWon(), string.Join(",", dashB.GetLargeWinings(board.GetWon())));
             Console.WriteLine("Player = {0}, Value = {1}", 1, string.Join(",", dashB.GetX().ToArray().Reverse()));
             Console.WriteLine("Player = {0}, Moves = {1}", 0, string.Join(",", dashB.GetY().ToArray().Reverse()));
 
             List<String> winingMoves = new List<string>();
-            foreach (var parm in moves[board.GetWon()])
+            if (board.GetWon() != 0)
             {
-                var param = parm.GetCodes();
-                bool rr = board.IsWiningMove(board.GetWon(), parm.GetCodes());
-                if (rr)
+                foreach (var parm in moves[board.GetWon()])
                 {
-                    winingMoves.Add(parm.GetAsCodinates());
-                    // Console.WriteLine("Key = {0}", parm.GetAsCodinates());
+                    var param = parm.GetCodes();
+                    bool rr = board.IsWiningMove(board.GetWon(), parm.GetCodes());
+                    if (rr)
+                    {
+                        winingMoves.Add(parm.GetAsCodinates("."));
+                        // Console.WriteLine("Key = {0}", parm.GetAsCodinates());
+                    }
                 }
+                Console.WriteLine("Winner = {0}, Value = {1}", board.GetWon(), string.Join(",", winingMoves.ToArray()));
+
             }
-            Console.WriteLine("Winner = {0}, Value = {1}", board.GetWon(), string.Join(",", winingMoves.ToArray()));
-
-
             Console.WriteLine("-----");
 
-
         }
-
-        static IBoard GetColned(VirtualBoard vBoard, IBoard board)
-        {
-
-
-            vBoard.AddBoard(0, 0, board.Clone());
-            vBoard.AddBoard(0, 1, board.Clone());
-            vBoard.AddBoard(0, 2, board.Clone());
-            vBoard.AddBoard(1, 0, board.Clone());
-            vBoard.AddBoard(1, 1, board.Clone());
-            vBoard.AddBoard(1, 2, board.Clone());
-            vBoard.AddBoard(2, 0, board.Clone());
-            vBoard.AddBoard(2, 1, board.Clone());
-            vBoard.AddBoard(2, 2, board.Clone());
-
-            return vBoard;
-        }
-
-
-
+   
     }
 }

@@ -3,30 +3,28 @@ using System;
 
 namespace Assing3{
 
-    // This objeect use to indicate basic operations
+    // This objeect use to indicate basic operations of boards
     public interface IBoard
     {
 
-        public void SetWon(int y0);
+        void SetWon(int y0);
 
-        public int GetWon();
+        int GetWon();
 
-        public bool IsDone();
+        bool IsDone();
 
-        public bool IsVaildMove( int num);
+        bool IsVaildMove( int num);
 
-        public int ResolveBoard( List<int> cellNum );
+        int ResolveBoard( List<int> cellNum );
 
-        public bool MarkCell(int player, List<int> cellNum);
+        bool MarkCell(int player, List<int> cellNum);
 
-        // public bool Mark(int player, List<int> cellNum);
+        IBoard Clone();
 
-        public IBoard Clone();
+        List<int> GetWinings();
 
-        public List<int> GetWinings();
-
-        public bool IsWiningMove(int player, List<int> cellNum);
-    
+        bool IsWiningMove(int player, List<int> cellNum);
+        
     }
 
 }

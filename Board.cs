@@ -5,18 +5,10 @@ namespace Assing3
 {
 
     // This objeect use to store user paremeters to create shapes
-    public class Board : IBoard
+    public class Board : AbsBoard
     {
-        private Mediator mediator;
-        private int level;
-
-        private bool done;
-        private int won;
-        List<int> wining = new List<int>();
-
+        
         private Cell[,] cells = new Cell[3, 3];
-        private int y;
-        private int x;
 
 
         public Board(Mediator m)
@@ -33,68 +25,20 @@ namespace Assing3
             cells[2, 2] = new Cell(0);
         }
 
-        public IBoard Clone()
+        public override IBoard Clone()
         {
             Board clone = new Board(this.mediator);
             // clone.cells = (Cell[,]) this.cells.Clone();
             return clone;
         }
 
-        public void SetX(int x0)
-        {
-            x = x0;
-        }
-        public int GetX()
-        {
-            return x;
-        }
 
-        public void SetLevel(int x0)
-        {
-            level = x0;
-        }
-        public int GetLevel()
-        {
-            return level;
-        }
-
-        public void SetY(int y0)
-        {
-            y = y0;
-        }
-        public int GetY()
-        {
-            return y;
-        }
-
-        public void SetWon(int y0)
-        {
-            done = true;
-            won = y0;
-            mediator.Update(this.level, y0);
-        }
-        public int GetWon()
-        {
-
-            return won;
-        }
-
-        public bool IsDone()
-        {
-            return done;
-        }
-
-        public List<int> GetWinings()
-        {
-            return wining;
-        }
-
-        public bool IsVaildMove(int num)
+        public override bool IsVaildMove(int num)
         {
             return !GetSelectedCell(num).IsMarked();
         }
 
-        public int ResolveBoard(List<int> cellNum)
+        public override int ResolveBoard(List<int> cellNum)
         {
 
             if (IsDone())
@@ -171,7 +115,7 @@ namespace Assing3
             return 0;
         }
 
-        public bool MarkCell(int player, List<int> cellNum)
+        public override bool MarkCell(int player, List<int> cellNum)
         {
             int f = cellNum[0];
             if (IsVaildMove(f))
@@ -181,7 +125,7 @@ namespace Assing3
             return false;
         }
 
-        public bool IsWiningMove(int player, List<int> cellNum)
+        public override bool IsWiningMove(int player, List<int> cellNum)
         {
             if (player == won)
             {
